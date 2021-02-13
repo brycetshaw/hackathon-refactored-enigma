@@ -2,3 +2,6 @@ node_modules
 DS_Store
 .idea
 
+model/flood-forecaster/notebooks/w13-1-filled.ipynb
+model/flood-forecaster/notebooks/w13-2.ipynb
+model/flood-forecaster/notebooks/w13-3.ipynb
