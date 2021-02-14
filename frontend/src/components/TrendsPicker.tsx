@@ -13,12 +13,13 @@ import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs';
 import generatePicker from 'antd/es/date-picker/generatePicker';
 import 'antd/es/date-picker/style/index';
 import {useDispatch, useSelector} from "react-redux";
+import {toDayjs} from "../utils";
 const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
 const { RangePicker } = DatePicker;
 // Weird hack ends.
 
 
-export const TrendPicker = (): JSX.Element => {
+export const TrendsPicker = (): JSX.Element => {
 
     const maxRange = useSelector(selectMaxRange);
     const selectedRange = useSelector(selectSelectedRange);
@@ -38,9 +39,11 @@ export const TrendPicker = (): JSX.Element => {
     };
 
     return (
-        <div>
-            this is the trend picker.
-        </div>
+        <RangePicker
+            value={toDayjs(selectedRange)}
+            onChange={handleChange}
+            disabledDate={dateIsDisabled}
+        />
     )
 }
 

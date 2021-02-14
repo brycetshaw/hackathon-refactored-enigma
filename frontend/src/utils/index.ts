@@ -2,7 +2,7 @@ import { Range } from '../redux/paramsSlice';
 import dayjs, { Dayjs } from 'dayjs';
 
 import isBetween from 'dayjs/plugin/isBetween';
-import { Measurement } from '../redux/trendSlice';
+import {Measurement} from "../redux/trendsSlice";
 dayjs.extend(isBetween);
 
 type DayjsRange = [Dayjs, Dayjs] | undefined;
@@ -76,49 +76,7 @@ export const isValidRange = (current: Range, next: Range, limit: Range) => {
     }
 };
 
-/**
- * Formats a number to a specified number of digits. So that it looks pretty.
- * @param num
- * @param digits
- */
-export const roundTo = (num: number | undefined, digits: number) => {
-    if (num === undefined) return;
-    const tens = Math.pow(10, digits);
-    return Math.round(num * tens) / tens;
-};
 
-/**
- * This returns a frequency (in minutes) required to keep the number of data points <500 for time range.
- * To a minimum of 15 minute interval.
- * @param selectRange
- */
-export const determineSampleRate = (selectRange: Range): string => {
-    const [start, end] = toDayjs(selectRange);
-    const diff = end.diff(start, 'minute');
-    const calculatedRate = Math.ceil(diff / 500);
-    const minRate = 15;
-    const rate = Math.max(calculatedRate, minRate);
-    return `${rate}m`;
-};
-
-/**
- * Accepts an array of async functions, followed by the arguments they expect.
- * The first promise to resolve is returned.
- * @param asyncFunctionsArray
- * @param arg
- */
-export const getFirstResolvedPromise = async <T, A>(
-    asyncFunctionsArray: Array<(arg: A) => Promise<T>>,
-    arg: A = ([] as unknown) as A,
-): Promise<T> => {
-    return Promise.any(
-        asyncFunctionsArray.map((asyncFunction) => asyncFunction(arg)),
-    );
-};
-
-export const generateId = (length = 6) => {
-    return Math.random().toString(20).substr(2, length);
-};
 
 export const arrayBetweenDates = (
     data: Measurement[],
@@ -130,11 +88,4 @@ export const arrayBetweenDates = (
     );
 };
 
-export const statsFromArray = (array: Measurement[]) => {
-    if (array.length === 0) return {};
-    return {
-        min: Math.min(...array.map((val) => val.min)),
-        max: Math.max(...array.map((val) => val.max)),
-        mean: array.reduce((sum, val) => sum + val.mean, 0) / array.length,
-    };
-};
+

@@ -3,6 +3,9 @@ import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
 import {Layout} from "antd";
+import {TrendsPicker} from "./components/TrendsPicker";
+import {ModelPicker} from "./components/ModelPicker";
+import {TrendsDisplay} from "./components/TrendsDisplay";
 
 const {Header, Content} = Layout;
 
@@ -16,7 +19,6 @@ function App() {
               <TrendsPicker />
               <ModelPicker />
               <TrendsDisplay />
-              <TimeFramePicker />
           </Content>
       </Layout>
   );

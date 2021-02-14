@@ -1,29 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
-import { fetchMaxDateRangeFromAPI } from '../lib/apiConnection';
-import { getFirstResolvedPromise, isValidRange } from '../utils';
+// import { fetchMaxDateRangeFromAPI } from '../lib/apiConnection';
+import {isValidRange } from '../utils'
+import dayjs, {Dayjs} from "dayjs";
 
 // import { fetchMaxDateRangeFromIndexedDB } from '../lib/localStorageConnection';
 
 export type Range = [string | undefined, string | undefined];
 
-export interface Trend {
-    time: number;
-    USAGE_KWH: number;
-}
-
 export interface ParamsState {
     selectedRange: Range;
     maxRange: Range;
+    columns: string[];
 }
 
 const initialState: ParamsState = {
     selectedRange: [undefined, undefined],
-    maxRange: [undefined, undefined],
+    maxRange: [dayjs('01 May 2000').toISOString(), dayjs('30 September 2020').toISOString()],
+    columns: ['bow at calgary', 'bow at banff']
 };
 
-export const rangeSlice = createSlice({
-    name: 'range',
+export const paramsSlice = createSlice({
+    name: 'params',
     initialState,
     reducers: {
         setMaxRange: (state, action: PayloadAction<Range>) => {
@@ -39,22 +37,8 @@ export const rangeSlice = createSlice({
     },
 });
 
-export const { setMaxRange, setRange } = rangeSlice.actions;
+export const { setMaxRange, setRange } = paramsSlice.actions;
+export const selectMaxRange = (state: RootState) => state.params.maxRange;
+export const selectSelectedRange = (state: RootState) => state.params.selectedRange;
 
-export const selectMaxRange = (state: RootState) => state.range.maxRange;
-
-export const selectSelectedRange = (state: RootState) =>
-    state.range.selectedRange;
-
-export const updateMaxRange = (): AppThunk => (dispatch) => {
-    const dataSources = [
-        fetchMaxDateRangeFromAPI,
-        // fetchMaxDateRangeFromIndexedDB,
-    ];
-
-    getFirstResolvedPromise(dataSources).then((res) =>
-        dispatch(setMaxRange(res)),
-    );
-};
-
-export default rangeSlice.reducer;
+export default paramsSlice.reducer;
