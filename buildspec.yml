@@ -7,8 +7,6 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
       - REPOSITORY_URI=285091344673.dkr.ecr.us-west-2.amazonaws.com/hack
-      - chmod +x ./createRepositories.sh
-      - ./createRepositories.sh
   build:
     commands:
       - echo Build started on `date`
