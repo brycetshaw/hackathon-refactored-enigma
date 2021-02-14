@@ -14,6 +14,8 @@ import generatePicker from 'antd/es/date-picker/generatePicker';
 import 'antd/es/date-picker/style/index';
 import {useDispatch, useSelector} from "react-redux";
 import {toDayjs} from "../utils";
+import {RootState} from "../redux/store";
+import {Checkbox} from "antd";
 const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
 const { RangePicker } = DatePicker;
 // Weird hack ends.
@@ -22,9 +24,10 @@ const { RangePicker } = DatePicker;
 export const TrendsPicker = (): JSX.Element => {
 
     const maxRange = useSelector(selectMaxRange);
+    const columns = useSelector((state: RootState) => state.params.columns);
+
     const selectedRange = useSelector(selectSelectedRange);
     const dispatch = useDispatch();
-
 
     const handleChange = (e: any) => {
         const updatedRange = e.map((d: any) => dayjs(d).toISOString());
@@ -39,11 +42,20 @@ export const TrendsPicker = (): JSX.Element => {
     };
 
     return (
+        <div>
         <RangePicker
             value={toDayjs(selectedRange)}
             onChange={handleChange}
             disabledDate={dateIsDisabled}
         />
+    {
+       columns.map((label) => (
+           <Checkbox>
+               {label}
+           </Checkbox>
+       ))
+    }
+        </div>
     )
 }
 

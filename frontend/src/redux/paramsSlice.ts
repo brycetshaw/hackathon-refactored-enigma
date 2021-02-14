@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
-// import { fetchMaxDateRangeFromAPI } from '../lib/apiConnection';
 import {isValidRange } from '../utils'
 import dayjs, {Dayjs} from "dayjs";
+import {getLabels} from "../lib/apiConnection";
 
-// import { fetchMaxDateRangeFromIndexedDB } from '../lib/localStorageConnection';
 
 export type Range = [string | undefined, string | undefined];
 
@@ -17,7 +16,7 @@ export interface ParamsState {
 const initialState: ParamsState = {
     selectedRange: [undefined, undefined],
     maxRange: [dayjs('01 May 2000').toISOString(), dayjs('30 September 2020').toISOString()],
-    columns: ['bow at calgary', 'bow at banff']
+    columns: []
 };
 
 export const paramsSlice = createSlice({
@@ -34,11 +33,21 @@ export const paramsSlice = createSlice({
                 state.maxRange,
             );
         },
+        setLabels: (state, action: PayloadAction<string[]>) => {
+           state.columns = action.payload;
+        }
     },
 });
 
-export const { setMaxRange, setRange } = paramsSlice.actions;
+export const { setMaxRange, setRange, setLabels } = paramsSlice.actions;
 export const selectMaxRange = (state: RootState) => state.params.maxRange;
 export const selectSelectedRange = (state: RootState) => state.params.selectedRange;
+
+export const updateLabels = (): AppThunk => (dispatch => {
+    console.log("hellooo")
+    getLabels().then(res => {
+        dispatch(setLabels(res));
+    })
+})
 
 export default paramsSlice.reducer;
