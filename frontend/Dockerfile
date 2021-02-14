@@ -1,22 +1,19 @@
-server {
+# build environment
+FROM node:12-alpine as build
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm ci --silent
+COPY . .
+ENV NODE_ENV=production
+RUN npm install
+RUN npm run build
 
-  listen 80;
-  server_name localhost;
-
-  location / {
-    root   /usr/share/nginx/html;
-    index  index.html index.html;
-    try_files $uri $uri/ /index.html;
-  }
-
-  location /rest/ {
-    proxy_pass http://restapi:4000/;
-  }
-
-  error_page   500 502 503 504  /50x.html;
-
-  location = /50x.html {
-    root   /usr/share/nginx/html;
-  }
-
-}
+# production environment
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+# new
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
