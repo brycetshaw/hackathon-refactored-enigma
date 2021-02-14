@@ -3,13 +3,13 @@
   "containerDefinitions": [
     {
       "essential": true,
-      "image": "285091344673.dkr.ecr.us-west-2.amazonaws.com/hack/api:latest",
+      "image": "285091344673.dkr.ecr.us-west-2.amazonaws.com/api:latest",
       "memory": 128,
       "name": "api"
     },
     {
       "essential": true,
-      "image": "285091344673.dkr.ecr.us-west-2.amazonaws.com/hack/frontend:latest",
+      "image": "285091344673.dkr.ecr.us-west-2.amazonaws.com/frontend:latest",
       "memory": 128,
       "links": [
         "api"
