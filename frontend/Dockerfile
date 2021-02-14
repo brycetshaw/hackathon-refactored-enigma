@@ -3,8 +3,8 @@ FROM node:12-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
-COPY package-lock.json ./
-RUN npm ci --silent
+#COPY package-lock.json ./
+#RUN npm ci --silent
 COPY . .
 ENV NODE_ENV=production
 RUN npm install
