@@ -11,7 +11,7 @@ services:
   webapp:
     build: ./frontend
     image: ${REPOSITORY_URI}/frontend
-    container_name: webapp
+    container_name: frontend
     ports:
       - "80:80"
     links:
