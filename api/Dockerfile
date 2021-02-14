@@ -1,9 +1,9 @@
 FROM python:3.7
 
-RUN pip install fastapi uvicorn pandas numpy pickle
+RUN pip install fastapi uvicorn pandas numpy
 
-EXPOSE 4000
+EXPOSE 80
 
 COPY ./app /app
 
-CMD ["python", "app/main.py"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

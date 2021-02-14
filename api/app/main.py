@@ -7,7 +7,7 @@ import pandas as pd
 
 app = FastAPI()
 # pickle_in = open("/Users/thomaszhao/Dev/FastAPI-main/classifier.pkl","rb")
-df = pd.read_csv("dataframe2.csv",parse_dates=['Date_Time'])
+df = pd.read_csv("app/dataframe2.csv",parse_dates=['Date_Time'])
 # model=pickle.load(pickle_in)
 
 @app.get("/")
@@ -18,7 +18,7 @@ def health():
 @app.get("/predict/")
 def predict(date: datetime.date):
 
-    return 
+    return
 
 
 @app.get("/query/")
@@ -29,4 +29,4 @@ def predict(feature: str, start_date: str,end_date: str):
     return result
 
 if __name__ == '__main__':
-    uvicorn.run(app, port=4000)
+    uvicorn.run(app, port=5000)
