@@ -3,14 +3,16 @@ version: "2"
 services:
   api:
     build: ./api
+    image: ${REPOSITORY_URI}/api
     container_name: api
     ports:
       - "4000:4000"
-#
-#  webapp:
-#    build: ./frontend
-#    container_name: webapp
-#    ports:
-#      - "80:80"
-#    links:
-#      - api
+
+  webapp:
+    build: ./frontend
+    image: ${REPOSITORY_URI}/frontend
+    container_name: webapp
+    ports:
+      - "80:80"
+    links:
+      - api
