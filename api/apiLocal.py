@@ -6,6 +6,7 @@ import datetime
 import pandas as pd
 
 app = FastAPI()
+pickle_in = open("/Users/thomaszhao/Dev/FastAPI-main/classifier.pkl","rb")
 df = pd.read_csv("hackathon-refactored-enigma/data/parsed/dataframe2.csv",parse_dates=['Date_Time'])
 model=pickle.load(pickle_in)
 
