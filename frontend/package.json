@@ -2,26 +2,6 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.2.5",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
-    "@types/react-redux": "^7.1.7",
-    "antd": "^4.12.3",
-    "dayjs": "^1.10.4",
-    "dexie": "^3.0.3",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-redux": "^7.2.0",
-    "react-scripts": "4.0.2",
-    "recharts": "^2.0.6",
-    "typescript": "~3.8.2"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -43,7 +23,38 @@
       "last 1 safari version"
     ]
   },
+  "dependencies": {
+    "@ant-design/colors": "^4.0.1",
+    "@reduxjs/toolkit": "^1.4.0",
+    "@types/lodash": "^4.14.165",
+    "@types/react-redux": "^7.1.11",
+    "@types/recharts": "^1.8.16",
+    "@types/redux-pack": "^0.1.5",
+    "antd": "^4.4.2",
+    "dayjs": "^1.9.5",
+    "dexie": "^3.0.2",
+    "lodash": "^4.17.20",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.2",
+    "react-scripts": "3.4.1",
+    "recharts": "^1.8.5",
+    "redux": "^4.0.5",
+    "redux-pack": "^0.1.5",
+    "typescript": "^3.7.5"
+  },
   "devDependencies": {
-    "@types/recharts": "^1.8.19"
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^12.12.50",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "cypress": "^6.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-functional": "^3.0.1",
+    "eslint-plugin-react": "^7.20.3",
+    "prettier": "^2.0.5"
   }
 }
