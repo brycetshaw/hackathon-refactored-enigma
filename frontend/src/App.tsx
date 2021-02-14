@@ -22,7 +22,7 @@ function App() {
 
     useEffect(() => {
         dispatch(updateTrend(columns, range))
-    }, [dispatch, columns])
+    }, [dispatch, columns, range])
 
   return (
       <Layout>
