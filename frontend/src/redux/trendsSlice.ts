@@ -49,7 +49,7 @@ export const trendSlice = createSlice({
             if(idx === -1) {
                 state.data.push(action.payload)
             } else {
-                state.data.map((series) => series.id === action.payload.id ? action.payload : series)
+                state.data = state.data.map((series) => series.id === action.payload.id ? action.payload : series)
             }
         }
     },

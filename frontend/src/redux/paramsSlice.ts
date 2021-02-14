@@ -19,7 +19,7 @@ export interface ParamsState {
 }
 
 const initialState: ParamsState = {
-    selectedRange: [dayjs('01 May 2002').toISOString(), dayjs('15 May 2002').toISOString()],
+    selectedRange: [dayjs('01 July 2020').toISOString(), dayjs('15 July 2020').toISOString()],
     maxRange: [dayjs('01 May 2000').toISOString(), dayjs('30 September 2020').toISOString()],
     columns: []
 };
