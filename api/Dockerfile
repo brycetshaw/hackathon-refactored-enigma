@@ -1,6 +1,6 @@
 FROM python:3.7
 
-RUN pip install fastapi uvicorn pandas numpy
+RUN pip install fastapi uvicorn pandas numpy sklearn
 
 EXPOSE 4000
 

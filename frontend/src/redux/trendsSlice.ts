@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from './store';
 // import { fetchSampledMinMaxRangeFromAPI } from '../lib/influxConnection';
-import { Range } from './paramsSlice';
+import {Column, Range} from './paramsSlice';
+import {getPrediction, getTrend} from "../lib/apiConnection";
 
 export enum Unit {
     flow = 'm3/s',
@@ -21,10 +22,10 @@ export enum DataType {
 
 export interface Series {
     id: string;
-    unit: Unit;
-    range: Range;
+    unit?: Unit;
+    range?: Range;
     data: Measurement[];
-    dataType: DataType
+    dataType?: DataType
 }
 
 interface TrendState {
@@ -41,9 +42,15 @@ export const trendSlice = createSlice({
     reducers: {
         setData: (
             state,
-            action: PayloadAction<{ id: string } & TrendState>,
+            action: PayloadAction<Series>,
         ) => {
 
+            const idx = state.data.findIndex((element) => element.id === action.payload.id)
+            if(idx === -1) {
+                state.data.push(action.payload)
+            } else {
+                state.data.map((series) => series.id === action.payload.id ? action.payload : series)
+            }
         }
     },
 });
@@ -51,6 +58,25 @@ export const trendSlice = createSlice({
 export const { setData } = trendSlice.actions;
 
 export const selectTrend = (state: RootState) => state.trends.data;
+
+export const updateTrend = (columns: Column[], [start, end]: Range): AppThunk => (dispatch => {
+    columns
+        .forEach((column) => (
+            getTrend(column.id, start, end)
+                .then(res => (
+                    dispatch(setData({id:column.id, data:res})
+                    )
+                )
+                )
+        )
+    )
+})
+
+export const setPredict = (date: string): AppThunk => (dispatch => {
+    getPrediction(date).then(res => (
+        dispatch(setData({id: "prediction", data: res}))
+    ))
+})
 
 // export const updateTrend = (range: Range, id: string): AppThunk => (dispatch) => {
 //     if (range.includes(undefined)) return;

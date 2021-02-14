@@ -6,11 +6,11 @@ services:
     container_name: api
     ports:
       - "4000:4000"
-
-  webapp:
-    build: ./frontend
-    container_name: webapp
-    ports:
-      - "80:80"
-    links:
-      - api
+#
+#  webapp:
+#    build: ./frontend
+#    container_name: webapp
+#    ports:
+#      - "80:80"
+#    links:
+#      - api

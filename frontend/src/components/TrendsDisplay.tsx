@@ -13,80 +13,51 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Range, selectSelectedRange, setRange } from '../redux/paramsSlice';
-import { Measurement, selectTrend } from '../redux/trendsSlice';
+import {Measurement, selectTrend, setPredict} from '../redux/trendsSlice';
 
 import { arrayBetweenDates } from '../utils';
 import dayjs from 'dayjs';
+import {RootState} from "../redux/store";
 
-const initialRefState = {
-    refAreaLeft: '',
-    refAreaRight: '',
-};
+
 export const TrendsDisplay = ():JSX.Element => {
 
+   const arrayOfSeries = useSelector(selectTrend);
+   const columns = useSelector((state: RootState) => state.params.columns.filter((col) => col.toggled).map(col=> col.id))
 
-    // const [refArea, setRefArea] = useState(initialRefState);
+   const data = useMemo(() => {
+       const map = new Map();
 
-   const data = useSelector(selectTrend);
-    // const rawData = useSelector(selectTrend);
-    // const data = useMemo(
-    //     () =>
-    //         rawData.map(
-    //             (val): Measurement => ({
-    //                 ...val,
-    //                 time: dayjs(val.time).valueOf(),
-    //             }),
-    //         ),
-    //     [rawData],
-    // );
+       arrayOfSeries.forEach((series) => {
+           series.data.forEach((point) => {
+               if(map.has(point.time)) {
+                   map.set(point.time, {...map.get(point.time), [series.id]: point.value})
+               } else {
+                   map.set(point.time, { [series.id]: point.value})
+               }
+           })
+       })
+        return (Array.from(map.entries()).map(([key, value]) => ({...value, time: dayjs(key).valueOf()})))
+
+   }, [arrayOfSeries])
+
+
 
     const selectedRange = useSelector(selectSelectedRange);
     const dispatch = useDispatch();
-    // let { refAreaLeft, refAreaRight } = refArea;
 
-    // useEffect(() => {
-    //     setRefArea(initialRefState);
-    // }, [data]);
-
-    // const highlightedStats = useMemo(() => {
-    //     const highlightedData = arrayBetweenDates(
-    //         data,
-    //         refAreaRight,
-    //         refAreaLeft,
-    //     );
-    //
-    //     return statsFromArray(highlightedData);
-    // }, [refAreaRight, refAreaLeft, data]);
-
-    // const zoom = () => {
-    //     if (refAreaLeft === refAreaRight || refAreaRight === '') {
-    //         setRefArea(initialRefState);
-    //         return;
-    //     }
-    //
-    //     // xAxis domain
-    //     if (refAreaLeft > refAreaRight)
-    //         [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
-    //
-    //     const newSelection: Range = ([
-    //         dayjs(refAreaLeft).toISOString(),
-    //         dayjs(refAreaRight).toISOString(),
-    //     ] as unknown) as Range;
-    //
-    //     setRefArea(initialRefState);
-    //     dispatch(setRange(newSelection));
-    // };
 
     const [left, right] = selectedRange.map((d) => dayjs(d).valueOf());
 
+    const handleClick = (event: any) => {
+        dispatch(setPredict(event.activeLabel))
+    }
     return (
         <ResponsiveContainer width="97%" height="97%">
             <LineChart
                 data={data}
-                // data={data.map((val) => ({
-                //     ...val,
-                //     span: val.min !== val.max ? [val.min, val.max] : [],
-                // }))}
+                onClick={handleClick}
+
             >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
@@ -114,19 +85,34 @@ export const TrendsDisplay = ():JSX.Element => {
                     //     value.toString() !== '' ? name : '',
                     // ]}
                 />
-                <Area
-                    dataKey={'span'}
-                    stroke="#8884d8"
-                    fill="#8884d8"
-                    isAnimationActive={false}
-                />
-                <Line
-                    type="natural"
-                    dataKey={'mean'}
-                    stroke="#3A395B"
-                    dot={false}
-                    isAnimationActive={false}
-                />
+                {
+                    columns.map((label) => (
+                        <Line
+                            type="natural"
+                            dataKey={label}
+                            stroke="#3A395B"
+                            dot={false}
+                            isAnimationActive={false}
+                        />
+                    ))
+                }
+                {
+
+                    <Line
+                        type="natural"
+                        dataKey={'prediction'}
+                        stroke="#FF5733"
+                        dot={false}
+                        isAnimationActive={false}
+                    />
+                }
+                {/*<Line*/}
+                {/*    type="natural"*/}
+                {/*    dataKey={'value'}*/}
+                {/*    stroke="#3A395B"*/}
+                {/*    dot={false}*/}
+                {/*    isAnimationActive={false}*/}
+                {/*/>*/}
                 {/*{refAreaLeft && refAreaRight ? (*/}
                 {/*    <ReferenceArea*/}
                 {/*        x1={refAreaLeft}*/}

@@ -11,11 +11,7 @@ type DayjsRange = [Dayjs, Dayjs] | undefined;
  * Helper function to parse ISO date string [start, end] pairs to dayjs
  */
 export const toDayjs = (range: Range): DayjsRange => {
-    if (range.includes(undefined)) {
-        return undefined;
-    } else {
         return range.map(dayjs) as DayjsRange;
-    }
 };
 
 /**

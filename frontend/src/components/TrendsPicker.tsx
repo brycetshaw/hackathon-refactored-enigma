@@ -3,6 +3,7 @@ import {
     selectMaxRange,
     selectSelectedRange,
     setRange,
+    toggleLabel
 } from '../redux/paramsSlice'
 
 
@@ -35,8 +36,6 @@ export const TrendsPicker = (): JSX.Element => {
     };
 
     const dateIsDisabled = (date: Dayjs): boolean => {
-        if ([...maxRange].includes(undefined)) return false;
-
         const [start, end] = toDayjs(maxRange);
         return (date && date < start) || date > end;
     };
@@ -49,9 +48,9 @@ export const TrendsPicker = (): JSX.Element => {
             disabledDate={dateIsDisabled}
         />
     {
-       columns.map((label) => (
-           <Checkbox>
-               {label}
+       columns.map((column) => (
+           <Checkbox checked={column.toggled} onChange={() => dispatch(toggleLabel(column.id))}>
+               {column.id}
            </Checkbox>
        ))
     }
