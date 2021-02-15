@@ -4,7 +4,7 @@ This will use an ML model to forecast the flow rate of the bow river in Calgary.
 
 ## How to run...
 
-(Elastic Beanstalk Deployment](http://hackathon.us-west-2.elasticbeanstalk.com/)
+[Elastic Beanstalk Deployment](http://hackathon.us-west-2.elasticbeanstalk.com/)
 
 ```
 docker-compose --file docker-compose-dev.yml up --build   
