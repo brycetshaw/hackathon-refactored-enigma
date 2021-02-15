@@ -8,7 +8,7 @@ import {
     ReferenceArea,
     ResponsiveContainer,
     Area,
-    ComposedChart, LineChart,
+    LineChart,
 } from 'recharts';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,8 +41,6 @@ export const TrendsDisplay = ():JSX.Element => {
 
    }, [arrayOfSeries])
 
-
-
     const selectedRange = useSelector(selectSelectedRange);
     const dispatch = useDispatch();
 
@@ -73,17 +71,6 @@ export const TrendsDisplay = ():JSX.Element => {
                     labelFormatter={(t) =>
                         dayjs(t).format('MMM D, YYYY h:mm A')
                     }
-                    // formatter={(value, name) => [
-                    //     Array.isArray(value)
-                    //         ? [
-                    //             value
-                    //                 .map((val) => (+val).toFixed(2))
-                    //                 .join(' kWh to '),
-                    //             value.length === 2 ? ' kWh' : '',
-                    //         ].join('')
-                    //         : (+value).toFixed(2) + ' kWh',
-                    //     value.toString() !== '' ? name : '',
-                    // ]}
                 />
                 {
                     columns.map((label) => (
@@ -97,7 +84,6 @@ export const TrendsDisplay = ():JSX.Element => {
                     ))
                 }
                 {
-
                     <Line
                         type="natural"
                         dataKey={'prediction'}
@@ -106,28 +92,6 @@ export const TrendsDisplay = ():JSX.Element => {
                         isAnimationActive={false}
                     />
                 }
-                {/*<Line*/}
-                {/*    type="natural"*/}
-                {/*    dataKey={'value'}*/}
-                {/*    stroke="#3A395B"*/}
-                {/*    dot={false}*/}
-                {/*    isAnimationActive={false}*/}
-                {/*/>*/}
-                {/*{refAreaLeft && refAreaRight ? (*/}
-                {/*    <ReferenceArea*/}
-                {/*        x1={refAreaLeft}*/}
-                {/*        x2={refAreaRight}*/}
-                {/*        strokeOpacity={0.3}*/}
-                {/*        label={Object.entries(highlightedStats)*/}
-                {/*            .map(*/}
-                {/*                ([key, value]) =>*/}
-                {/*                    `${key}: ${*/}
-                {/*                        (value as number).toFixed(2) || 'N/A'*/}
-                {/*                    }`,*/}
-                {/*            )*/}
-                {/*            .join('\n')}*/}
-                {/*    />*/}
-                {/*) : null}*/}
             </LineChart>
         </ResponsiveContainer>
 
